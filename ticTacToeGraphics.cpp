@@ -6,7 +6,7 @@
 #include <allegro5/allegro_native_dialog.h>
 #include "logic.h"
 
-void set_graphics_x_o(int x, int y, logic &game_logic);
+void set_graphics_x_o(int x, int y, logic &game_logic, int turn);
 void draw_board();
 void draw_x(int x, int y);
 void draw_o(int x, int y);
@@ -56,7 +56,7 @@ int main() {
 	game_logic.setup();
 	draw_board();
 	ALLEGRO_FONT *font = al_load_font("./GROBOLD.ttf", 24, 0);
-	//game_message(gameover, game_logic);
+	int turn = 0;
 	
 	al_flip_display();
 	while (!done && !gameover)
@@ -80,7 +80,15 @@ int main() {
 		game_message(gameover, game_logic, font);
 		if (draw)
 		{
-			set_graphics_x_o(posX, posY, game_logic);
+			if (turn == 0) {
+				set_graphics_x_o(posX, posY, game_logic, turn);
+				turn = 1;
+			}
+			else {
+				set_graphics_x_o(posX, posY, game_logic, turn);
+				turn = 0;
+			}
+			
 			draw = false;
 		}
 		al_flip_display();
@@ -133,9 +141,8 @@ void turn_xo(int x, int y, int &turn, int boardx, int boardy, logic &game_logic)
 	}
 }
 
-void set_graphics_x_o(int x, int y, logic &game_logic)
+void set_graphics_x_o(int x, int y, logic &game_logic, int turn)
 {
-	static int turn = 0;
 	if ((x < 213) && (y < 125))
 	{
 		turn_xo(106, 62, turn, 0, 0, game_logic);

@@ -11,7 +11,7 @@ void draw_board();
 void draw_x(int x, int y);
 void draw_o(int x, int y);
 void game_message(bool &gameover, logic &game_logic, ALLEGRO_FONT *font);
-void turn_xo(int x, int y, int &turn, int boardx, int boardy, logic &game_logic);
+void turn_xo(int x, int y, int *turn, int boardx, int boardy, logic &game_logic);
 
 int main() {
 	logic game_logic;
@@ -57,7 +57,9 @@ int main() {
 	draw_board();
 	ALLEGRO_FONT *font = al_load_font("./GROBOLD.ttf", 24, 0);
 	int turn = 0;
+	srand(time(NULL));
 	
+	game_message(gameover, game_logic, font);
 	al_flip_display();
 	while (!done && !gameover)
 	{
@@ -77,18 +79,20 @@ int main() {
 			}
 		}
 		draw_board();
-		game_message(gameover, game_logic, font);
 		if (draw)
 		{
 			if (turn == 0) {
 				set_graphics_x_o(posX, posY, game_logic, &turn);
 			}
 			else {
+				posX = rand() % 640;
+				posY = rand() % 374;
 				set_graphics_x_o(posX, posY, game_logic, &turn);
 			}
 			
 			draw = false;
 		}
+		game_message(gameover, game_logic, font);
 		al_flip_display();
 	}
 	al_rest(5.0);

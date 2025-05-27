@@ -6,7 +6,7 @@
 #include <allegro5/allegro_native_dialog.h>
 #include "logic.h"
 
-void set_graphics_x_o(int x, int y, logic &game_logic, int turn);
+void set_graphics_x_o(int x, int y, logic &game_logic, int *turn);
 void draw_board();
 void draw_x(int x, int y);
 void draw_o(int x, int y);
@@ -81,12 +81,10 @@ int main() {
 		if (draw)
 		{
 			if (turn == 0) {
-				set_graphics_x_o(posX, posY, game_logic, turn);
-				turn = 1;
+				set_graphics_x_o(posX, posY, game_logic, &turn);
 			}
 			else {
-				set_graphics_x_o(posX, posY, game_logic, turn);
-				turn = 0;
+				set_graphics_x_o(posX, posY, game_logic, &turn);
 			}
 			
 			draw = false;
@@ -121,13 +119,14 @@ void draw_o(int x, int y)
 	al_draw_circle(x, y, 62, al_map_rgb(255, 255, 0), 4);
 }
 
-void turn_xo(int x, int y, int &turn, int boardx, int boardy, logic &game_logic)
+void turn_xo(int x, int y, int *turn, int boardx, int boardy, logic &game_logic)
 {
-	if (turn == 0)
+	if (*turn == 0)
 	{
 		if (game_logic.set_x(boardx, boardy) == true)
 		{
 			draw_x(x, y);
+			*turn = 1;
 		}
 	}
 	else
@@ -135,11 +134,12 @@ void turn_xo(int x, int y, int &turn, int boardx, int boardy, logic &game_logic)
 		if (game_logic.set_o(boardx, boardy) == true)
 		{
 			draw_o(x, y);
+			*turn = 0;
 		}
 	}
 }
 
-void set_graphics_x_o(int x, int y, logic &game_logic, int turn)
+void set_graphics_x_o(int x, int y, logic &game_logic, int *turn)
 {
 	if ((x < 213) && (y < 125))
 	{

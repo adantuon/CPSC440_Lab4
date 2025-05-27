@@ -128,7 +128,6 @@ void turn_xo(int x, int y, int &turn, int boardx, int boardy, logic &game_logic)
 		if (game_logic.set_x(boardx, boardy) == true)
 		{
 			draw_x(x, y);
-			turn = 1;
 		}
 	}
 	else
@@ -136,7 +135,6 @@ void turn_xo(int x, int y, int &turn, int boardx, int boardy, logic &game_logic)
 		if (game_logic.set_o(boardx, boardy) == true)
 		{
 			draw_o(x, y);
-			turn = 0;
 		}
 	}
 }

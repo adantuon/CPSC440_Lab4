@@ -79,19 +79,25 @@ int main() {
 			}
 		}
 		draw_board();
+
+		if (turn == 1) {
+			while (turn == 1) {
+				posX = rand() % 640;
+				posY = rand() % 374;
+				set_graphics_x_o(posX, posY, game_logic, &turn);
+			}
+		}
+
 		if (draw)
 		{
 			if (turn == 0) {
 				set_graphics_x_o(posX, posY, game_logic, &turn);
 			}
-			else {
-				posX = rand() % 640;
-				posY = rand() % 374;
-				set_graphics_x_o(posX, posY, game_logic, &turn);
-			}
-			
+
 			draw = false;
 		}
+
+
 		game_message(gameover, game_logic, font);
 		al_flip_display();
 	}
